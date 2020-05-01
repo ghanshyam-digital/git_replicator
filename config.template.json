@@ -1,0 +1,44 @@
+{
+    "global": {
+        "source": {
+            "credentials": {
+                "username": "",
+                "password": ""
+            }
+        },
+        "destination": {
+            "credentials": {
+                "username": "",
+                "password": ""
+            }
+        },
+        "repositoriesLocation": "/absolute/path/of/directory/where/you/want/to/clone/all/the/repos"
+    },
+    "repositories": [
+        {
+            "source": {
+                "url": "",
+                "credentials": {
+                    "username": "",
+                    "password": ""
+                }
+            },
+            "destination": [
+                {
+                    "url": "",
+                    "credentials": {
+                        "username": "",
+                        "password": ""
+                    }
+                },
+                {
+                    "url": "",
+                    "credentials": {
+                        "username": "",
+                        "password": ""
+                    }
+                }
+            ]
+        }
+    ]
+}
