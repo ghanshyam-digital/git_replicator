@@ -15,6 +15,11 @@ Starting from one idea to whole open source project. One day I was thinking of h
 3. Fill all values in `config.json`
 4. Run command `php artisan git_replicator:replicate`
 
+## Showcase
+![Screenshot-1](https://raw.githubusercontent.com/ghanshyam-digital/git_replicator/master/storage/showcase-1.png)
+---
+![Screenshot-2](https://raw.githubusercontent.com/ghanshyam-digital/git_replicator/master/storage/showcase-2.png)
+
 ## Todos/Feature Requests
 - [x] Check for valid json.
 - [x] Don't Add remote URL if already exists.
