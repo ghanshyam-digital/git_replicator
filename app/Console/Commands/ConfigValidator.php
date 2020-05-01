@@ -13,14 +13,16 @@ class ConfigValidator extends Command
      *
      * @var string
      */
-    protected $signature = 'git_replicator:validate_config';
+    protected $signature = 'git_replicator:validate_config {--silent}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Config.json Validator.';
+    protected $description = 'Config.json Validator.
+                                {--silent= : Whether this command should print output or not}
+    ';
 
     /**
      * Execute the console command.
@@ -37,6 +39,8 @@ class ConfigValidator extends Command
             throw new ErrorException("Invalid config.json - " . json_last_error_msg());
         }
 
-        $this->info("Hurray! config.json is Valid");
+        if (!$this->input->getOption('silent')) {
+            $this->info("Hurray! config.json is Valid");
+        }
     }
 }
