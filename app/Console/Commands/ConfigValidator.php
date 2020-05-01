@@ -36,5 +36,7 @@ class ConfigValidator extends Command
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ErrorException("Invalid config.json - " . json_last_error_msg());
         }
+
+        $this->info("Hurray! config.json is Valid");
     }
 }
