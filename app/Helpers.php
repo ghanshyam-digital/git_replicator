@@ -21,9 +21,9 @@ function isWin()
 function rrmdir($path)
 {
     if (isWin()) {
-        execPrint(sprintf("rd /s /q %s", escapeshellarg($path)));
+        exec(sprintf("rd /s /q %s", escapeshellarg($path)));
     } else {
-        execPrint(sprintf("rm -rf %s", escapeshellarg($path)));
+        exec(sprintf("rm -rf %s", escapeshellarg($path)));
     }
 }
 
@@ -33,7 +33,7 @@ function execInBackground($cmd)
     if (isWin()) {
         pclose(popen("start /B " . $cmd, "r"));
     } else {
-        execPrint($cmd . " > /dev/null &");
+        exec($cmd . " > /dev/null &");
     }
 }
 
