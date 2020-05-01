@@ -8,6 +8,13 @@ For times when you want to have a replicas of your git repositories. Either from
 ## Journey
 Starting from one idea to whole open source project. One day I was thinking of having a backup of all my repos hosted [gogs](https://gogs.io/). Gogs provides backup solution _(a ZIP of all repos and other data)_ but that's not what I wanted. So I wrote a small script to get a clone from one source and push it to other destination repo. And then added some fancy stuff and put on a [Lumen](https://lumen.laravel.com/) wrapper.
 
+## Usage 
+
+1. Clone this repo. 
+2. Copy `config.template.json` to `config.json`
+3. Fill all values in `config.json`
+4. Run command `php artisan git_replicator:replicate`
+
 ## Todos/Feature Requests
 - [x] Check for valid json.
 - [x] Don't Add remote URL if already exists.
