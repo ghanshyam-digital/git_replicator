@@ -23,6 +23,13 @@ class Replicator extends Command
     protected $description = 'Run Git replicator';
 
     /**
+     * Error variable.
+     *
+     * @var bool
+     */
+    protected $error = false;
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -30,6 +37,7 @@ class Replicator extends Command
      */
     public function handle()
     {
+        $this->info('Checking config.json file.');
         $this->call('git_replicator:validate_config');
 
         $config = json_decode(file_get_contents(base_path('config.json')), true);
@@ -52,7 +60,7 @@ class Replicator extends Command
         if (is_array($config['repositories'])) {
             foreach ($config['repositories'] as $index => $repo) {
                 if ($index > 0) {
-                    eko('************************');
+                    $this->info('************************************************************************');
                 }
 
                 if (!empty($repo['source']) && !empty($repo['destination'])) {
@@ -67,13 +75,19 @@ class Replicator extends Command
                     $sourceUrl = unparse_url($sourceUrlParsed);
 
                     if (!is_dir($sourceFolderPath)) {
-                        $this->comment('Source repo Doesn\' exits, Cloning Source repo.');
+                        $this->comment('Source repo Doesn\'t exits, Cloning Source repo.');
                         $cloneString = 'git clone --mirror ' . $sourceUrl . ' ' . $sourceFolder;
                         $out = $this->exec($cloneString);
-                        $this->comment($out);
+                        if ($this->error) {
+                            $this->error($out);
+                            $this->error('Skipping...');
+                            continue;
+                        } else {
+                            $this->comment($out);
+                        }
                         chdir($sourceFolderPath);
                     } else {
-                        $this->comment('Source repo exits, Fetching change to Source repo.');
+                        $this->comment('Source repo found. Fetching changes...');
                         chdir($sourceFolderPath);
                         $pullString = 'git fetch -p origin';
                         $out = $this->exec($pullString);
@@ -86,7 +100,7 @@ class Replicator extends Command
                         eko();
                         $this->comment('Processing Destination : ' . $destination['url']);
 
-                        $destinationCreds = array_merge([], $config['global']['destination']['credentials'], $destination['credentials']);
+                        $destinationCreds = array_merge([], $config['global']['destination']['credentials'] ?? [], $destination['credentials'] ?? []);
                         $destinationUrl = $destination['url'];
                         $destinationName = md5($destinationUrl);
                         $destinationUrlParsed = parse_url($destinationUrl);
@@ -97,7 +111,7 @@ class Replicator extends Command
                         // Check if remote URL is already added or not.
                         $out = $this->exec('git remote');
                         if (stripos($out, $destinationName) === false) {
-                            $this->info("Adding remote url" . $destination['url']);
+                            $this->info("Adding remote url: " . $destination['url']);
                             $this->exec('git remote add ' . $destinationName . ' ' . $destinationUrl);
                             $this->info("Remote url Added");
                         } else {
@@ -123,11 +137,12 @@ class Replicator extends Command
      */
     private function exec($command, $return = true)
     {
+        $this->error = false;
         if ($return) {
             exec(escapeshellcmd($command) . ' 2>&1', $o, $return);
 
             if ($return !== 0) {
-                $this->error("Error in Command : " . $command);
+                $this->error = true;
             }
             return implode(PHP_EOL, $o);
         } else {
