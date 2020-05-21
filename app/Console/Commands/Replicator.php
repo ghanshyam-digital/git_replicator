@@ -125,8 +125,15 @@ class Replicator extends Command
 
                         $this->info("Pushing changes to Remote");
                         $out = $this->exec('git push ' . $destinationName . '  --mirror');
-                        $this->comment($out);
-                        $this->info("Pushed to Destination");
+
+                        if ($this->error) {
+                            $this->error($out);
+                            $this->error('Skipping...');
+                            continue;
+                        } else {
+                            $this->comment($out);
+                            $this->info("Pushed to Destination");
+                        }
                         eko();
                     }
                 }
