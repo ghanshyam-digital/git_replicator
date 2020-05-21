@@ -66,6 +66,7 @@ class Replicator extends Command
                 if (!empty($repo['source']) && !empty($repo['destination'])) {
                     $sourceCreds = array_merge([], $config['global']['source']['credentials'] ?? [], $repo['source']['credentials'] ?? []);
                     $sourceUrl = $repo['source']['url'];
+                    $deleteAlways = $repo['source']['deleteAlways'] ?? false;
                     $this->info("Processing $sourceUrl");
                     $sourceFolder = md5($sourceUrl);
                     $sourceFolderPath = $reposDir . ds() . $sourceFolder;
@@ -73,6 +74,10 @@ class Replicator extends Command
                     $sourceUrlParsed['user'] = $sourceCreds['username'];
                     $sourceUrlParsed['pass'] = $sourceCreds['password'];
                     $sourceUrl = unparse_url($sourceUrlParsed);
+
+                    if ($deleteAlways) {
+                        rrmdir($sourceFolderPath);
+                    }
 
                     if (!is_dir($sourceFolderPath)) {
                         $this->comment('Source repo Doesn\'t exits, Cloning Source repo.');

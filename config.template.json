@@ -21,7 +21,8 @@
                 "credentials": {
                     "username": "",
                     "password": ""
-                }
+                },
+                "deleteAlways": true
             },
             "destination": [
                 {
