@@ -40,3 +40,6 @@ Starting from one idea to whole open source project. One day I was thinking of h
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
+
+
+![Alt](https://repobeats.axiom.co/api/embed/bdea80564aa6a69c9b74050b67df576eea32c4ff.svg "Repobeats analytics image")
